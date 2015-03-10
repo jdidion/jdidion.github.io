@@ -142,7 +142,7 @@ a {
   text-decoration: none;
 
   &:visited {
-    color: darken($brand-top-color, 25%);
+    color: $brand-top-color;
   }
 
   &:hover {
