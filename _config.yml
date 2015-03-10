@@ -13,7 +13,7 @@ url: "http://john.didion.net" # the base hostname & protocol for your site
 twitter_username: jdidion
 github_username:  jdidion
 orcid_id:         0000-0002-8111-6261   
-aboutme:          "I am a postdoctoral fellow at the NIH."
+aboutme:          "I am a postdoctoral fellow in genomics and computational biology at the <a href="http://nih.gov">NIH</a>."
 aboutme_photo:    "images/photo.jpeg"
 
 
