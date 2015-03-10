@@ -5,7 +5,7 @@ author: John Didion
 email: <first><last> AT gmail DOT com
 description: Notes on my projects
 keywords: "data, science, code"
-baseurl: "/" # the subpath of your site, e.g. /blog/
+baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://john.didion.net" # the base hostname & protocol for your site
 
 
