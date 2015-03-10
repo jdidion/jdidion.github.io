@@ -2,10 +2,11 @@
 title: John's Notebook
 tagline: Data+Science
 author: John Didion
+email: <first><last> AT gmail DOT com
 description: Notes on my projects
 keywords: "data, science, code"
-baseurl: "/notebook" # the subpath of your site, e.g. /blog/
-url: "http://john.didion.net/notebook" # the base hostname & protocol for your site
+baseurl: "/" # the subpath of your site, e.g. /blog/
+url: "http://john.didion.net" # the base hostname & protocol for your site
 
 
 ### Personal info and site tools info:
