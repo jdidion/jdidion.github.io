@@ -24,7 +24,6 @@ default_locale: "en"
 
 locales:
     en:
-      Aboutme: "About Me"
       Archives: "Archives"
       Categories: "Categories"
       Copyright_Notice: "Copyright Notice"
