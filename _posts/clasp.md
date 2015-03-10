@@ -1,3 +1,7 @@
+---
+layout: post
+---
+
 # CLASP
 
 ## Cell Line Authentication by SNP Profiling
