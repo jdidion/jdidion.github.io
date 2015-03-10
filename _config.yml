@@ -1,0 +1,41 @@
+### Site info:
+title: John's Notebook
+tagline: Data+Science
+author: John Didion
+description: Notes on my projects
+keywords: "data, science, code"
+baseurl: "/notebook" # the subpath of your site, e.g. /blog/
+url: "http://john.didion.net/notebook" # the base hostname & protocol for your site
+
+
+### Personal info and site tools info:
+twitter_username: jdidion
+github_username:  jdidion
+orcid_id:         0000-0002-8111-6261   
+aboutme:          "I am a postdoctoral fellow at the NIH."
+aboutme_photo:    "/images/photo.jpg"
+
+
+### Site setting:
+ShowContactInfo: "True" 
+default_column: "two" 
+default_locale: "en"
+
+locales:
+    en:
+      Aboutme: "About Me"
+      Archives: "Archives"
+      Categories: "Categories"
+      Copyright_Notice: "Copyright Notice"
+      Recent_Posts: "Recent Posts"
+      Tags: "Tags"
+      Previous: "Older"
+      Next: "Newer"
+      PostedInCategories: "Posted in"
+      Taggedwith: "and tagged"  
+      PostDate: "on "
+
+### Build settings
+markdown: kramdown
+highlighter: pygments
+paginate: 5
