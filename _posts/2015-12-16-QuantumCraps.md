@@ -1,4 +1,14 @@
-# Quantum Craps
+--- 
+published: true
+title: Quantum Craps
+layout: post
+author: John
+category: articles
+tags: 
+- projects
+- science
+
+---
 
 It's said that god doesn't play dice with the universe, but what if she instead simultaneously rolls an infinite number of infinitely-sided dice and chooses the subset of dice that represent the outcome she prefers? I think most people would call this cheating; yet if she rolled only a single set of dice and got the same outcome by chance, it would instead be called luck. Is there any substantial difference between the two situations?
 
