@@ -8,6 +8,8 @@ keywords: "data, science, code"
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://john.didion.net" # the base hostname & protocol for your site
 
+# Disqus comments
+disqus_shortname: johndidion
 
 ### Personal info and site tools info:
 twitter_username: jdidion
