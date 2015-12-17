@@ -17,6 +17,7 @@ layout: default
     {% endfor %}
     {% endif %}
     {{ site.locales[site.default_locale].PostDate }}{{ page.date | date: "%b %-d, %Y" }}
+    {% include comments.html %}
     </p>
   </header>
 
