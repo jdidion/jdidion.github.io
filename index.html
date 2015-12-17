@@ -29,6 +29,9 @@ layout: default
 
     <article class="post-content">
       {{ post.content }}
+      <!--{% if page.comments %}-->
+      {% include comments.html %}
+      <!--{% endif %}-->
     </article> <hr />
     
     {% endfor %}
