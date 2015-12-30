@@ -29,10 +29,15 @@ Here's how to do it:
 
 The missing part of the solution is filtering the feed. I have heard that [FeedRinse](http://www.feedrinse.com/) is the best service for feed filtering, but it appears not to be working at the moment. They are promising a "2.0" upgrade at some point, but who knows when. I think that FeedRinse will also take care of Step 2 (i.e. it allows you to create an aggregate list and also filter it). I've signed up to be notified when the new FeedRinse is available, so I'll update this post if and when I get the full solution working.
 
-# Update
+# Update (12/17/2015)
 
 Well, FeedRinse is still "under construction," and I'm not holding my breath. I've have searched extensively but not found any RSS feed filtering service that actually works. I have also tried several times to make PubMed work for me, but I've been unhappy with the results. So I'm back to my old solution, which is to subscribe to the RSS feeds of all the journals I'm interested in and try to find time to sort through all of the articles I'm not interested in to find the few gems. However, I have also added two new strategies which I hope can replace my reliance on RSS feeds:
 
 1. I added a lot more scientists to my list in Twitter. I plan to keep track of all the papers I source via Twitter and the time I spend going through my Twitter feed, and compare that to my RSS feeds, to see which method is more efficient.
 2. I signed up for [PubChase](https://www.pubchase.com/), which looks quite promising. I uploaded my entire Zotero library (~1000 publications), so it will be interesting to see how their automatic recommendations stack up against the papers I manually pull out of RSS and Twitter. I have also been signed up for SciReader (http://scireader.org/) for a while. While I usually find at least a few papers in the weekly e-mail digest, I'm frustrated and confused by their decision not to provide an RSS feed. Maybe if I complain enough they'll change their minds.
 
+# Update (12/30/2015)
+
+I recently discovered [Nuzzel](http://nuzzel.com/), which has made keeping up with publications via Twitter. Essentially, Nuzzel mines your Twitter feed for links and presents them in a nicely formatted list. You can sort by popularity or recentness (I prefer the latter). With Nuzzel, I now find that I only need a much smaller list of people I want to interact with at a personal level, which has greatly stemmed the tide of tweets, which in turn has made me feel less anxious about checking Twitter at every free moment lest I get buried in an avalanche of unread tweets.
+
+PubChase's recommendations have proven pretty good, but they don't catch anywhere close to everything that I source from the journal RSS feeds. So for now I'll continue to use RSS as my primary means of keeping up with the literature.
