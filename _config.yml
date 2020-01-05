@@ -37,6 +37,8 @@ locales:
 
 ### Build settings
 version: v1.2.0
+markdown: kramdown
+paginate: 5
 
 kramdown:
   # Use GitHub flavored markdown, including triple backtick fenced code blocks
