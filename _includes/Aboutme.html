@@ -3,23 +3,29 @@
   <img title="{{site.author}}" src="{{site.aboutme_photo}}" alt="{{site.author}}"/>
   <span>{{site.aboutme}}</span>
 </div>
+
 <div class="sidebar-module">
-  <a href="{{site.resume}}">Resume</a>
+  <h4>{{ site.locales[site.default_locale].Deets }}</h4>
+  <span>
+  <ul>
+  <li><a href="{{site.resume}}">Resume</a></li>
 
   {% if site.ShowContactInfo == "True" %}
   
   {% if site.email != empty %}
-  | <a href="mailto:{{site.email}}" title="mailto: {{site.email}}">Email</a>
+  <li><a href="mailto:{{site.email}}" title="mailto: {{site.email}}">Email</a></li>
   {% endif %}
   {% if site.github_username != empty %}
-  | <a href="https://github.com/{{site.github_username}}" title="GithubID: {{site.github_username}}">Github</a>
+  <li><a href="https://github.com/{{site.github_username}}" title="GithubID: {{site.github_username}}">Github</a></li>
   {% endif %}
   {% if site.twitter_username != empty %}
-  | <a href="https://twitter.com/{{site.twitter_username}}" title="TwitterID: {{site.twitter_username}}">Twitter</a>
+  <li><a href="https://twitter.com/{{site.twitter_username}}" title="TwitterID: {{site.twitter_username}}">Twitter</a></li>
   {% endif %}
   {% if site.orcid_id != empty %}
-  | <a href="http://orcid.org/{{site.orcid_id}}">ORCiD</a>
+  <li><a href="http://orcid.org/{{site.orcid_id}}">ORCiD</a></li>
   {% endif %}
   
   {% endif %}
+  </ul>
+  </span>
 </div>
