@@ -16,6 +16,7 @@ github_username:  jdidion
 orcid_id:         0000-0002-8111-6261   
 aboutme:          "I am a computational biologist with a background in software engineering and expertise in high-throughput sequencing, biological data analysis, and cloud technologies. I currently work as a Principal Scientist at <a href='http://dnanexus.com'>DNAnexus</a>."
 aboutme_photo:    "images/photo.jpeg"
+resume:           JohnDidion_Resume.pdf
 
 ### Site setting:
 ShowContactInfo: "True" 
