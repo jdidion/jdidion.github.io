@@ -7,25 +7,23 @@
 <div class="sidebar-module">
   <h4>{{ site.locales[site.default_locale].Deets }}</h4>
   <span>
-  <ul>
-  <li><a href="{{site.resume}}">Resume</a></li>
+    <a href="{{site.resume}}">Resume</a>
 
-  {% if site.ShowContactInfo == "True" %}
-  
-  {% if site.email != empty %}
-  <li><a href="mailto:{{site.email}}" title="mailto: {{site.email}}">Email</a></li>
-  {% endif %}
-  {% if site.github_username != empty %}
-  <li><a href="https://github.com/{{site.github_username}}" title="GithubID: {{site.github_username}}">Github</a></li>
-  {% endif %}
-  {% if site.twitter_username != empty %}
-  <li><a href="https://twitter.com/{{site.twitter_username}}" title="TwitterID: {{site.twitter_username}}">Twitter</a></li>
-  {% endif %}
-  {% if site.orcid_id != empty %}
-  <li><a href="http://orcid.org/{{site.orcid_id}}">ORCiD</a></li>
-  {% endif %}
-  
-  {% endif %}
-  </ul>
+    {% if site.ShowContactInfo == "True" %}
+    
+    {% if site.email != empty %}
+    &nbsp;<a href="mailto:{{site.email}}" title="mailto: {{site.email}}">Email</a>
+    {% endif %}
+    {% if site.github_username != empty %}
+    &nbsp;<a href="https://github.com/{{site.github_username}}" title="GithubID: {{site.github_username}}">Github</a>
+    {% endif %}
+    {% if site.twitter_username != empty %}
+    &nbsp;<a href="https://twitter.com/{{site.twitter_username}}" title="TwitterID: {{site.twitter_username}}">Twitter</a>
+    {% endif %}
+    {% if site.orcid_id != empty %}
+    &nbsp;<a href="http://orcid.org/{{site.orcid_id}}">ORCiD</a>
+    {% endif %}
+    
+    {% endif %}
   </span>
 </div>
