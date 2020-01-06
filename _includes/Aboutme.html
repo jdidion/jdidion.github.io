@@ -23,6 +23,9 @@
     {% if site.orcid_id != empty %}
     &middot; <a href="http://orcid.org/{{site.orcid_id}}">ORCiD</a>
     {% endif %}
+    {% if site.orcid_id != empty %}
+    &middot; <a href="https://scholar.google.com/citations?user={{site.gscholar_user}}">ORCiD</a>
+    {% endif %}
     
     {% endif %}
   </span>
