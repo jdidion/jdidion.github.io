@@ -13,13 +13,13 @@
   letter-spacing: -1px;
   margin-bottom: 0;
   text-align:center;
+  text-decoration: none;
   a{
     &,
     &:visited
     &:hover {
       color: $brand-top-color; //$grey-color-dark
       border-bottom: 1px dotted;
-      text-decoration: none;
     }
   }
 }
