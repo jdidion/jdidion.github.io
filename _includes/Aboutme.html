@@ -12,16 +12,16 @@
     {% if site.ShowContactInfo == "True" %}
     
     {% if site.email != empty %}
-    &middot;<a href="mailto:{{site.email}}" title="mailto: {{site.email}}">Email</a>
+    &middot; <a href="mailto:{{site.email}}" title="mailto: {{site.email}}">Email</a>
     {% endif %}
     {% if site.github_username != empty %}
-    &middot;<a href="https://github.com/{{site.github_username}}" title="GithubID: {{site.github_username}}">Github</a>
+    &middot; <a href="https://github.com/{{site.github_username}}" title="GithubID: {{site.github_username}}">Github</a>
     {% endif %}
     {% if site.twitter_username != empty %}
-    &middot;<a href="https://twitter.com/{{site.twitter_username}}" title="TwitterID: {{site.twitter_username}}">Twitter</a>
+    &middot; <a href="https://twitter.com/{{site.twitter_username}}" title="TwitterID: {{site.twitter_username}}">Twitter</a>
     {% endif %}
     {% if site.orcid_id != empty %}
-    &middot;<a href="http://orcid.org/{{site.orcid_id}}">ORCiD</a>
+    &middot; <a href="http://orcid.org/{{site.orcid_id}}">ORCiD</a>
     {% endif %}
     
     {% endif %}

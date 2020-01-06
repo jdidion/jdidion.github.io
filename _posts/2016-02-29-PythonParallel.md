@@ -11,7 +11,7 @@ tags:
 
 ---
 
-I am currently working on contributing code to create a multi-threaded version of a piece of bioinformatics software I use heavily, Cutadapt (http://cutadapt.readthedocs.org/en/stable/guide.html). Cutadapt is a Python program that reads through records in a FASTQ file (or pair of FASTQ files) and performs adapter and quality trimming, so the architecture of the program is "read sequentially from one or more files, modify the data, and write the results to one or more output files." The question came up as to what the best way is to implement parallel processing in Python.
+I am currently working on contributing code to create a multi-threaded version of a piece of bioinformatics software I use heavily, [Cutadapt](http://cutadapt.readthedocs.org/en/stable/guide.html). Cutadapt is a Python program that reads through records in a FASTQ file (or pair of FASTQ files) and performs adapter and quality trimming, so the architecture of the program is "read sequentially from one or more files, modify the data, and write the results to one or more output files." The question came up as to what the best way is to implement parallel processing in Python.
 
 From prior experience with parallel processing, I know that the file reading and writing cannot be parallelized easily, so the general architecture is to have a reader thread that reads from the input file(s), worker threads that perform the read and quality trimming, and a writer thread that accumulates the results from the worker threads and writes them to disk.
 
