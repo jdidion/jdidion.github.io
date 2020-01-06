@@ -7,7 +7,7 @@ description: Genomics, Software, and Various Other Bits
 email: <first><last> AT gmail DOT com
 keywords: "data, science, code"
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://john.didion.net" # the base hostname & protocol for your site
+url: "https://john.didion.net" # the base hostname & protocol for your site
 avatar: "https://avatars3.githubusercontent.com/u/125854?v=4"
 
 ### Personal info and site tools info:
@@ -15,7 +15,7 @@ twitter_username: jdidion
 github_username:  jdidion
 orcid_id:         0000-0002-8111-6261   
 gscholar_user:    hik7qrwAAAAJ
-aboutme:          "I am a computational biologist with a background in software engineering and experience in high-throughput sequencing, biological data analysis, and cloud technologies. Currently, I am a Principal Scientist @<a href='http://dnanexus.com'>DNAnexus</a>."
+aboutme:          "I am a computational biologist with a background in software engineering and experience in high-throughput sequencing, biological data analysis, and cloud technologies. Currently, I am a Principal Scientist @<a href='https://dnanexus.com'>DNAnexus</a>."
 aboutme_photo:    "images/photo.jpeg"
 favicon:          "images/favicon.ico"
 resume:           "assets/JohnDidion_Resume.pdf"
