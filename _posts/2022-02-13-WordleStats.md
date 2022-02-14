@@ -1,4 +1,14 @@
-# What should my first Wordle guess be?
+--- 
+published: true
+title:  What should my first Wordle guess be?
+layout: post
+author: John
+category: articles
+tags: 
+- games
+- stats
+
+---
 
 Like just about everyone else, I've gotten sucked into playing Wordle. I typically don't go in for games with such straight-forward mechanics, but for a couple reasons it hits sweet-spot for me. First, it is time-boxed: you can only play one round a day and each round is relatively short, so there's no risk of it sucking up big chunks of time. Second, on its surface it is a word game (and I'm a bit of a word nerd), but underneath it is a game about probability.
 
