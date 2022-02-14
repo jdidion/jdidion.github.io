@@ -100,7 +100,7 @@ raise
 serai
 ```
 
-Now, having played Wordle for a few weeks, I've have not seen any uncommon words, so my assumption is that the word list has been filtered to contain only words that most people will know. I think `serai` would be much less likely than the other two, so I would choose `arise` or `raise` as my first word to maximize my chance of getting a hit on my first guess.
+After playing Wordle for a few weeks I have not seen any uncommon words, so my assumption is that the word list has been filtered to contain only words that most people will know. I think `serai` would be much less likely than the other two, so I would choose `arise` or `raise` as my first word to maximize my chance of getting a hit on my first guess.
 
 ## Strategy 2: Maximize Green Tiles
 
@@ -113,15 +113,15 @@ To maximize green tiles, we are not just interested in letter frequency, but spe
 The first thing we have to do is read the word list from `stdin`. There are many ways to do this, but I'll use base R whenever possible to minimize the number of libraries I need to install.
 
 ```bash
-cat /usr/share/dict/words | awk 'length($0) == 5'| tr '[:upper:]' '[:lower:]' | sort | uniq | Rscript -e 'scan(file("stdin"), "raw")'
+cat /usr/share/dict/words | awk 'length($0) == 5' | tr '[:upper:]' '[:lower:]' | sort | uniq | Rscript -e 'scan(file("stdin"), "raw")'
 [1] "aalii" "aaron" "abaca" "aback" "abaff" "abaft" ...
 ```
 
-From here, we want to get to a matrix of words (rows) by letters (columns), i.e. an `N*5` matrix. For that, we can use `strsplit` followed by `unlist` to get to an array of characters, then fold them into a matrix using `matrix(ncol=5)`.
+From here, we want to get to a matrix of words (rows) by letters (columns), i.e. an `N*5` matrix. For that, we can use `strsplit` followed by `unlist` to get to an array of characters, then fold them into a matrix using `matrix(ncol=5, byrow=T)`.
 
 
 ```bash
-$ cat /usr/share/dict/words | awk 'length($0) == 5'| tr '[:upper:]' '[:lower:]' | sort | uniq | Rscript -e 'scan(file("stdin"), "raw") %>% strsplit("") %>% unlist %>% matrix(ncol=5, byrow=T)'
+$ cat /usr/share/dict/words | awk 'length($0) == 5' | tr '[:upper:]' '[:lower:]' | sort | uniq | Rscript -e 'scan(file("stdin"), "raw") %>% strsplit("") %>% unlist %>% matrix(ncol=5, byrow=T)'
      [,1] [,2] [,3] [,4] [,5]
 [1,] "a"  "a"  "l"  "i"  "i"
 [2,] "a"  "a"  "r"  "o"  "n"
@@ -133,6 +133,7 @@ $ cat /usr/share/dict/words | awk 'length($0) == 5'| tr '[:upper:]' '[:lower:]' 
 ```
 
 As a first approach to analyzing positional frequency, we can simply count the frequency of each letter in each column, using `table` (for brevity I'll just focus on the R command from now on):
+
 ```R
 > scan(file("stdin"), "raw") %>% strsplit("") %>% unlist %>% matrix(ncol=5, byrow=T) %>% apply(2, table)
   [,1] [,2] [,3] [,4] [,5]
@@ -244,4 +245,4 @@ Excluding words with repeated letters and less common words, `clout, count, and 
 
 After two guesses, you will at least have one vowel. If you still don't have enough tiles to make a guess at the word, then you can use your knowledge of letter frequencies to come up with a third guess that will maximize the number of yellow or green tiles. For example, if I just have an `o` then `moldy` is a good third guess.
 
-The question of how many tiles you need to know before trying to guess the word is an interesting one, but I do not have a good intuition for how to determine this objectively. My personal rule of thumb is that if I have at least 3 tiles I will start tailoring my guesses to uncover the positions of the yellow tiles. For example, if I guessed `route` and `r, t, and e` are yellow, then my next guess might be `tires` - new positions for each of the yellow tiles, and two new letters whith high frequency. 
+The question of how many tiles you need to know before trying to guess the word is an interesting one, but I do not have a good intuition for how to determine this objectively. My personal rule of thumb is that if I have at least 3 tiles I will start tailoring my guesses to uncover the correct positions of the yellow tiles. For example, if I guessed `route` and `r, t, and e` are yellow, then my next guess might be `tires` - new positions for each of the yellow tiles, and two new letters whith high frequency. 
