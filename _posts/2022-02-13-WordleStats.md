@@ -92,7 +92,7 @@ error
 reree
 ```
 
-There are a few, but unfortunately they all have at least one repeated character. Now, if we look closely at the dictionary we can see that it does not contain plurals. Since `s` is the sixth most frequent character, I replaced `o` with `s` and, after removing any words with dupliated letters, end up with:
+There are a few, but unfortunately they all have at least one repeated character. Since `s` is the sixth most frequent character, I replaced `o` with `s` and, after removing any words with duplicated letters, end up with:
 
 ```
 arise
