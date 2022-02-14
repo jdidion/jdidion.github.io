@@ -23,14 +23,14 @@ I tend to prefer the first strategy, but I do not have any concrete analysis to 
 
 First we need a list of words. While Wordle does not publish their word list, we can probably get a good approximation of the letter frequencies in that list using any large list of 5-letter words. Fortunately, linux-based operating systems provide a list of words read for use: `/usr/share/dict/words`.
 
-Since this file contains words of varying lenghts, we need to filter it to keep only the 5-letter words. Also, since it appears the list contains words with a mix of upper- and lower-case, and since Wordle is not case-sensitive, we need to normalize the letter cases. This can be accomplished with `awk` and the `tr` command:
+Since this file contains words of varying lenghts, we need to filter it to keep only the 5-letter words. Also, since it appears the list contains words with a mix of upper- and lower-case, and since Wordle is not case-sensitive, we need to normalize the letter cases. This can be accomplished with `awk` and the `tr` command.
 
 Finally, even though this list is probably already sorted and does not contain duplicates, it's still good practice to make sure. We can do that with the `sort` and `uniq` commands.
 
 Here is the full pipeline. I've piped the result to head so we can just see an example of what we're working with:
 
 ```
-$ cat /usr/share/dict/words | awk 'length($0) == 5'| tr '[:upper:]' '[:lower:]' | sort | uniq | head
+$ cat /usr/share/dict/words | awk 'length($0) == 5' | tr '[:upper:]' '[:lower:]' | sort | uniq | head
 aalii
 aaron
 abaca
