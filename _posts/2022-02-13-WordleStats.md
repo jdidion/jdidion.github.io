@@ -17,7 +17,7 @@ Why do I say it's a game of probability? Because there's really only two strateg
 * Select the word that (on average) maximizes the overlap with the set of letters in the answer word (i.e. the number of yellow tiles)
 * Select the word that (on avearge) maximizes the number of correctly placed letters (i.e. the number of green tiles)
 
-I tend to prefer the first strategy, but I do not have any concrete analysis to show that it is better than the second. Whichever strategy you choose, you need to decide what your first word will be, and you can narrow it down a relatively small number of choices using some simple analysis of letter frequencies. For fun, I will do this using just some unix command line tools and a bit of R.
+I tend to prefer the first strategy, but I do not have any concrete analysis to show that it is better than the second. Whichever strategy you choose, you need to decide what your first word will be, and you can narrow it down to a relatively small number of choices using some simple analysis of letter frequencies. For fun, I will do this using just some unix command line tools and a bit of R.
 
 ## The word list
 
