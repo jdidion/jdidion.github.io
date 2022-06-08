@@ -104,7 +104,7 @@ After playing Wordle for a few weeks I have not seen any uncommon words, so my a
 
 ## Strategy 2: Maximize Green Tiles
 
-To maximize green tiles, we are not just interested in letter frequency, but specifically *positional* letter frequency, i.e. which letter is most likely in each of the 5 positions. Analyzing positinal letter frequency is (I think) more than we can do with linux command line tools, so instead I'll load the data into R and do my analysis there. We can still stick with the command line thanks to the `Rscript` command. I'll be using the pipeline operator (`%>%`), which requires installing the `matrittr` library.
+To maximize green tiles, we are not just interested in letter frequency, but specifically *positional* letter frequency, i.e. which letter is most likely in each of the 5 positions. Analyzing positional letter frequency is (I think) more than we can do with linux command line tools, so instead I'll load the data into R and do my analysis there. We can still stick with the command line thanks to the `Rscript` command. I'll be using the pipeline operator (`%>%`), which requires installing the `magrittr` library.
 
 ```R
 > install.packages("magrittr")
