@@ -1,0 +1,17 @@
+{{- $options := .Options -}}
+{{- $data := newScratch -}}
+{{- $data.Set "options" dict -}}
+{{- range $key, $value := $options -}}
+{{- $data.SetInMap "options" (lower $key) $value -}}
+{{- end -}}
+{{- $replacement := (printf "%s%s" "code" (substr (md5 .Inner) 0 7)) -}}
+{{- $data.SetInMap "options" "lineanchors" $replacement -}}
+<table class="code-header">
+  <tr>
+    {{- with .Attributes.title }}
+    <td class="code-title">{{ . }}</td>
+    {{- end}}
+    <td class="code-lang">{{ .Type | string }}</td>
+  </tr>
+</table>
+{{- highlight .Inner .Type ($data.Get "options") -}}
