@@ -130,11 +130,11 @@ rssLimit = 20
     style = "vulcan"
     tabWidth = 2
 
-[module]
+#[module]
   # In case you would like to make changes to the theme and keep it locally in you repository,
   # uncomment the line below (and correct the local path if necessary).
   # --
-  replacements = "github.com/panr/hugo-theme-terminal -> themes/terminal"
+  #replacements = "github.com/panr/hugo-theme-terminal -> themes/terminal"
 
 [outputs]
   home = ['HTML', 'RSS']
