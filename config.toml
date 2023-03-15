@@ -1,0 +1,140 @@
+baseurl = "/"
+languageCode = "en-us"
+theme = "terminal"
+paginate = 5
+rssLimit = 20
+
+[params]
+  # dir name of your main content (default is `content/posts`).
+  # the list of set content will show up on your index page (baseurl).
+  contentTypeName = "posts"
+  # ["orange", "blue", "red", "green", "pink"]
+  themeColor = "blue"
+  # if you set this to 0, only submenu trigger will be visible
+  showMenuItems = 3
+  # show selector to switch language
+  showLanguageSelector = false
+  # set theme to full screen width
+  fullWidthTheme = false
+  # center theme with default width
+  centerTheme = true
+  # if your resource directory contains an image called `cover.(jpg|png|webp)`,
+  # then the file will be used as a cover automatically.
+  # With this option you don't have to put the `cover` param in a front-matter.
+  autoCover = true
+  # set post to show the last updated
+  # If you use git, you can set `enableGitInfo` to `true` and then post will automatically get the last updated
+  showLastUpdated = false
+  # set a custom favicon (default is a `themeColor` square)
+  # favicon = "favicon.ico"
+  # Provide a string as a prefix for the last update date. By default, it looks like this: 2020-xx-xx [Updated: 2020-xx-xx] :: Author
+  # updatedDatePrefix = "Updated"
+  # set all headings to their default size (depending on browser settings)
+  # oneHeadingSize = true # default
+  # whether to show a page's estimated reading time
+  # readingTime = false # default
+  # whether to show a table of contents
+  # can be overridden in a page's front-matter
+  # Toc = false # default
+  # set title for the table of contents
+  # can be overridden in a page's front-matter
+  # TocTitle = "Table of Contents" # default
+
+[params.twitter]
+  # set Twitter handles for Twitter cards
+  # see https://developer.twitter.com/en/docs/tweets/optimize-with-cards/guides/getting-started#card-and-content-attribution
+  # do not include @
+  creator = "jdidion"
+  site = ""
+
+# [taxonomies]
+#   category = "blog"
+#   tag      = "tags"
+#   series   = "series"
+
+[languages]
+  [languages.en]
+    languageName = "English"
+    title = "John Didion"
+    subtitle = "A simple, retro theme for Hugo"
+    owner = ""
+    keywords = ""
+    copyright = ""
+    menuMore = "Find Me"
+    readMore = "Read more"
+    readOtherPosts = "Read other posts"
+    newerPosts = "Newer posts"
+    olderPosts = "Older posts"
+    missingContentMessage = "Page not found..."
+    missingBackButtonLabel = "Back to home page"
+    minuteReadingTime = "min read"
+    words = "words"
+    
+    [languages.en.params.logo]
+      logoText = "John Didion"
+      logoHomeLink = "/"
+
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        identifier = "posts"
+        name = "Posts"
+        url = "/posts"
+        weight = -100
+      [[languages.en.menu.main]]
+        identifier = "tags"
+        name = "Tags"
+        url = "/tags"
+        weight = -99
+      [[languages.en.menu.main]]
+        identifier = "about"
+        name = "About"
+        url = "/about"
+        weight = -98
+      [[languages.en.menu.main]]
+        identifier = "github"
+        name = "GitHub"
+        url = "https://github.com/jdidion"
+        weight = 100
+      [[languages.en.menu.main]]
+        identifier = "linkedin"
+        name = "LinkedIn"
+        url = "https://www.linkedin.com/in/jdidion/"
+        weight = 100
+      [[languages.en.menu.main]]
+        identifier = "twitter"
+        name = "Twitter"
+        url = "https://twitter.com/jdidion"
+        weight = 100
+      [[languages.en.menu.main]]
+        identifier = "orcid"
+        name = "ORCiD"
+        url = "https://orcid.org/0000-0002-8111-6261"
+        weight = 100
+      [[languages.en.menu.main]]
+        identifier = "scholar"
+        name = "Google Scholar"
+        url = "https://scholar.google.com/citations?user=hik7qrwAAAAJ"
+        weight = 100
+      [[languages.en.menu.main]]
+        identifier = "rss"
+        name = "RSS"
+        url = "/index.xml"
+        weight = 100
+
+[markup]
+  [markup.highlight]
+    anchorLineNos = true
+    codeFences = true
+    lineNos = true
+    lineNumbersInTable = true
+    style = "vulcan"
+    tabWidth = 2
+
+[module]
+  # In case you would like to make changes to the theme and keep it locally in you repository,
+  # uncomment the line below (and correct the local path if necessary).
+  # --
+  replacements = "github.com/panr/hugo-theme-terminal -> themes/terminal"
+
+[outputs]
+  home = ['HTML', 'RSS']
