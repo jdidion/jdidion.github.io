@@ -1,5 +1,5 @@
 +++
-title = "A crash-course in parsing with Rust"
+title = "Parsing with Rust - Part 1: a crash-course"
 date = "2023-03-14"
 author = "John"
 authorTwitter = "jdidion" #do not include @
@@ -12,7 +12,7 @@ hideComments = false
 color = "" #color from the theme settings
 +++
 
-The first post in a series on writing a programming-language parser in Rust. In this post, I give a high-level introduction to parsing, discuss different types of grammars and parsers, and give an overview of the most popular Rust crates for generating a parser from a grammar. In future posts, I'll dive deep into implementing parsers for [WDL](https://openwdl.org), a domain-specific language for describing computational workflows.
+The first post in a series on writing programming-language parsers in Rust. In this post, I give a high-level introduction to parsing, discuss different types of grammars and parsers, and give an overview of the most popular Rust crates for generating a parser from a grammar. In future posts, I'll dive deep into implementing parsers for [WDL](https://openwdl.org), a domain-specific language for describing computational workflows.
 
 <!--more-->
 
@@ -77,7 +77,7 @@ Note that a grammar only defines the *syntax* of a language. A string that is sy
 
 ```python{title="Valid syntax, invalid semantics"}
 i = 0
-k = i + j
+k = i + j # invalid reference to identifier `j`
 ```
 
 ```python{title="Valid syntax and semantics"}
@@ -125,7 +125,7 @@ Since this series of articles is specifically focused on writing a parser in Rus
 * [Pest](https://crates.io/crates/pest) is by far the most widely used (if [crates.io](https://crates.io/search?q=pest)'s download numbers are to be trusted) Rust parser generator. It uses PEG grammars written in [pest syntax](https://pest.rs/book/grammars/syntax.html). There are a number of [built-in rules](https://pest.rs/book/grammars/built-ins.html), including the ability to automatically handle whitespace and comments.
 * [peg](https://crates.io/crates/peg) is another PEG parser generator for Rust. Instead of writing the grammar in its own source file, peg uses a macro to define the grammar directly in a Rust source file. This enables arbitrary Rust code to be executed when matching a rule.
 * [LALRPOP](https://crates.io/crates/lalrpop) generates either an LR(1) or an LALR(1) parser. The meta-language is inspired by Rust, and each rule is associated with Rust code that is executed when the rule matches.
-* [Tree-sitter](https://crates.io/crates/tree-sitter) is a widely used parser generator framework that supports many target languages. The parser generator is written in [node.js](https://nodejs.org/en/) and requires it to be installed. Tree-sitter generates GLR parsers and automatically creates Rust bindings by default. A unique feature of tree-sitter is that the syntax tree it produces can be updated, making it popular for implementing syntax highlighters.
+* [Tree-sitter](https://crates.io/crates/tree-sitter) is a widely used parser generator framework that supports many target languages. The parser generator is written in [node.js](https://nodejs.org/en/) and requires it to be installed. Tree-sitter generates GLR parsers and automatically creates Rust bindings by default. A unique feature of tree-sitter is that the syntax tree it produces can be updated, making it popular for implementing syntax highlighters and other developer tools.
 
 ### Parser combinators
 
@@ -140,7 +140,7 @@ I won't go into detail on parser combinators in this post, but if you're interes
 
 ## Conclusion
 
-That's it for Part 1 in this series on writing a parser in Rust. Hopefully you're now familiar with the most important concepts related to parser grammars and algorithms. Stay tuned for Part 2, in which we'll implement and use the first of two different grammars for [WDL](https://openwdl.org), a domain-specific language for describing computational workflows.
+That's it for Part 1 in this series on writing a parser in Rust. Hopefully you're now familiar with the most important concepts related to parser grammars and algorithms. Stay tuned for Part 2, in which we'll implement and use the first of two different parser grammars for [WDL](https://openwdl.org), a domain-specific language for describing computational workflows.
 
 [^1]: For an interpreted language (e.g., Python), this program is typically referred to as an interpreter rather than a compiler, but compiling and interpreting are fundamentally the same.
 
