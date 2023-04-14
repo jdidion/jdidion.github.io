@@ -1,19 +1,108 @@
-+++
-title = "Parsing with Rust - Part 3: writing a PEG grammar with Pest"
-date = "2023-03-20"
-author = "John Didion"
-authorTwitter = "jdidion" #do not include @
-tags = ["rust"]
-keywords = ["rust", "parsing", "wdl"]
-description = ""
-showFullContent = false
-readingTime = false
-hideComments = false
-color = "" #color from the theme settings
-draft = true
-+++
 
-The third post in a series on writing programming-language parsers in Rust. In [Part 1](/posts/parsing-with-rust-part1/), I introduced general parsing concepts and looked at some of the Rust crates available for generating a parser. In [Part 2](/posts/parsing-with-rust-part2/), I did a deep-dive into [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) and showed how to write a parser for [WDL](https://openwdl.org). In this post, I walk through writing a [Parsing Expression Grammar (PEG)](https://en.wikipedia.org/wiki/Parsing_expression_grammar) and generating a parser using [Pest](https://pest.rs/). I also talk about writing a [testing framework](https://github.com/jdidion/pest-test) for Pest grammars.
+## Using the parse tree
 
-<!--more-->
+We successfully parsed a WDL file using our Tree-sitter parser from Rust, but we didn't do anything with the `tree_sitter::Tree` instance that our parser returned. Let's expand our test case to actually navigate the parse tree.
 
+Tree-sitter provides two different APIs for working with the parse tree:
+
+* `tree_sitter::TreeCursor`: Low-level API. A cursor maintains a pointer to a node in the tree, and has a minimal set of methods for moving the pointer. The `node` method returns an instance of `tree_sitter::Node` for the node it's currently pointing to.
+* * `tree_sitter::Node`: High-level API. A `Node` contains metadata (rule name, span, and string value) about a node in the tree and provides functions for accessing related nodes (parent, siblings, and children). Internally, a `Node` maintains a reference to a `TreeCursor`, and many of `Node`'s methods require creating a copy of the cursor using the `walk` method.
+
+The high-level API is more ergonomic (although less efficient), so we'll stick to that for now. In a later post we'll write a custom iterator that wraps a `TreeCursor` to provide better ergonomics while maintaining good performance.
+
+```rust
+#[test]
+fn test_parse() {
+    let wdl_file = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("resources")
+        .join("test")
+        .join("simple.wdl");
+    let wdl_source = std::fs::read_to_string(wdl_file).unwrap();
+    let tree = super::parse_document(&wdl_source).unwrap();
+    let root = tree.root_node();  // get the root (`document`) node in the tree
+    assert_eq!(root.kind(), "document");
+    assert_eq!(root.child_count(), 2);
+    let cursor = &mut root.walk();  // make a copy of the cursor
+    let mut children = root.children(cursor);  // create iterator over children
+    let version = children.next().expect("Expected version node");
+    assert_eq!(version.kind(), "version");
+    assert_eq!(version.child_count(), 2);
+    assert_eq!(
+        version.utf8_text(&wdl_source.as_bytes()).unwrap(),
+        "version 1.1"
+    );
+    // we can't mutably borrow cursor twice, so we have to make a second copy of 
+    // the tree cursor
+    let cursor2 = &mut root.walk();
+    let mut version_tokens = version.children(cursor2);
+    let keyword = version_tokens.next().expect("Expected version keyword");
+    assert!(!keyword.is_named());  // tokens do not have a rule name
+    assert_eq!(keyword.kind(), "version");  // a token's kind is equal to its text
+    assert_eq!(
+        keyword.utf8_text(&wdl_source.as_bytes()).unwrap(),
+        "version"
+    );
+    let number = version_tokens.next().expect("Expected version number");
+    assert_eq!(number.kind(), "1.1");
+    assert_eq!(number.utf8_text(&wdl_source.as_bytes()).unwrap(), "1.1");
+    let workflow = children.next().expect("Expected workflow node");
+    assert_eq!(workflow.kind(), "workflow");
+    assert!(workflow.is_named());  // workflow is a named terminal node
+    assert_eq!(workflow.child_count(), 0);
+}
+```
+
+A node that corresponds to a production rule is called a "named" node. All non-terminal nodes are named; a terminal node may be named (e.g. the `workflow` node) or not (e.g., the nodes corresponding to the `version` and `1.1` tokens). Each node has a `kind`, which is either its rule name (for a named node) or its literal value (for a terminal token). Obtaining the text value of the node requires passing in a reference to the input text (as a byte array).
+
+The high-level API provides idiomatic methods to navigate the parse tree - e.g., using iterators. The drawback of this approach, as we can see in the above example, is that navigating multiple levels of the tree requires creating multiple copies of the `TreeCursor`, and each of these copy operations is relatively slow.
+
+## Improving parse tree ergonomics
+
+As we are developing our WDL grammar, one thing we need to keep in mind is how easy it will be to work with the syntax tree generated by the parser. We can make some small usability improvements to our grammar that might not seem important now, but whose benefits will become clear once we actually try to use our parser.
+
+The first change we can make is to have our grammar better reflect the structure of WDL documents. Right now, we have all of the top-level elements as children of `document`, but in reality the `version` statement is different from the others. We can think of `version` as a header - it must appear once as the first statement in the document - while the other nodes comprise the "body" of the document. To mirror this structure in the grammar, we can introduce a new `document_body` rule whose children are the rules for the four body elements.
+
+Another improvement we can make is to add a unique name to each node that we may want to access in the parse tree. This will make it possible to retrieve individual nodes by name rather than having to iterate over all the nodes to find the one we want. Tree-sitter refers to these as "field names", and they are added by the `field` function in the grammar DSL.
+
+```javascript
+module.exports = grammar({
+  name: "wdl",
+  rules: {
+    document: $ => seq(
+      field("version", $.version),
+      field("body", $.document_body),
+    ),
+    document_body: $ => repeat1(
+      choice(
+        $.import,
+        $.struct,
+        $.workflow,
+        $.task
+      )
+    ),
+    ...
+  } 
+});
+```
+
+With these changes to the grammar, we can simplify our test case somewhat. Note that the performance is probably not any better than before - we avoid making one of the copies of the cursor, but instead we're performing redundant navigation of the parse tree because each call to `child_by_field_name` moves the cursor to the first child node, then to each successive sibling node until the node with the given field name is found, then back to the parent node. 
+
+```rust
+#[test]
+fn test_parse() {
+    let wdl_file = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("resources")
+        .join("test")
+        .join("simple.wdl");
+    let wdl_source = std::fs::read_to_string(wdl_file).unwrap();
+    let tree = super::parse_document(&wdl_source).unwrap();
+    let root = tree.root_node();  // get the root (`document`) node in the tree
+    let version = root.child_by_field_name("version").expect("Expected version node");
+    ...
+    let body = root.child_by_field_name("body").expect("Expected body node");
+    let cursor = &mut body.walk();
+    let body_children = body.children(cursor);
+    let workflow = body_children.next().expect("Expected workflow node");
+    ...
+}
+```
