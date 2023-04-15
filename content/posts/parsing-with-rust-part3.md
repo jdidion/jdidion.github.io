@@ -1,3 +1,23 @@
++++
+title = "Parsing with Rust - Part 2: writing an LR grammar with Tree-sitter"
+date = "2023-04-14"
+author = "John Didion"
+authorTwitter = "jdidion"
+tags = ["rust", "parsing", "wdl"]
+keywords = ["rust", "parsing", "wdl", "tree-sitter"]
+description = ""
+showFullContent = false
+readingTime = false
+hideComments = false
+color = ""
++++
+
+The third post in a series on writing programming-language parsers in Rust. In [Part 1](/posts/parsing-with-rust-part1/), I introduced general parsing concepts and looked at some of the Rust crates available for generating a parser. In [Part 2](/posts/parsing-with-rust-part2/), I showed how to write a very simple [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar, generate a parser, and use it from Rust. In this post, 
+
+for 
+. In this post, I walk through writing a grammar for [WDL](https://openwdl.org) - a domain-specific language for describing computational workflows - and using the parser in Rust.
+
+<!--more-->
 
 ## Using the parse tree
 

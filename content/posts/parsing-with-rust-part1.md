@@ -12,7 +12,7 @@ hideComments = false
 color = "" #color from the theme settings
 +++
 
-The first post in a series on writing programming-language parsers in Rust. In this post, I give a high-level introduction to parsing, discuss different types of grammars and parsers, and give an overview of the most popular Rust crates for generating a parser from a grammar. In future posts, I'll dive deep into implementing parsers for [WDL](https://openwdl.org), a domain-specific language for describing computational workflows.
+The first post in a series on writing programming-language parsers in Rust. This post gives a high-level introduction to parsing, discusses different types of grammars and parsers, and gives an overview of the most popular Rust crates for generating a parser from a grammar. In future posts, we'll dive deep into implementing parsers for [WDL](https://openwdl.org), a domain-specific language for describing computational workflows.
 
 <!--more-->
 
@@ -51,7 +51,7 @@ The process that executes this first step of compilation is called a *parser*. A
 
 Now let's say that we want to write a parser for our favorite language. How do we go about it? There are two approaches: write the parser manually or create it automatically using a *parser generator*. Hand-written [lexers](https://doc.rust-lang.org/stable/nightly-rustc/rustc_lexer/index.html) and [parsers](https://doc.rust-lang.org/stable/nightly-rustc/rustc_parse/index.html) can be (much) faster than the alternative, but they are also complex and labor-intensive. On the other hand, generated parsers only require you to describe the language as a [formal grammar](https://en.wikipedia.org/wiki/Formal_grammar) in whatever *meta-language* is supported by the parser generator.
 
-In this series of posts, I will be focusing on the second approach[^2]. I'll first describe the different flavors of formal grammar you might encounter, and then I'll close with an overview of parser generators that either generate Rust code or provide Rust bindings.
+In this series of posts, we'll be focusing on the second approach[^2]. We'll first cover the different flavors of formal grammar you might encounter, and then we'll close with an overview of parser generators that either generate Rust code or provide Rust bindings.
 
 ## Formal grammars
 
@@ -131,7 +131,7 @@ Since this series of articles is specifically focused on writing a parser in Rus
 
 An intermediate approach between hand-writing and generating a parser is to use a parser combinator framework, which provides a set of primitive functions that can be used to create the lexing and parsing rules and composed into a parser. It can be thought of as writing a parser generator where the rules are expressed directly in code, rather than in the meta-language of a grammar. This is usually easier than writing a parser completely from scratch, and it tends to result in a parser that is faster than one generated from a grammar.
 
-I won't go into detail on parser combinators in this post, but if you're interested in this approach you can look at some of the most popular Rust parser combinator libraries:
+We won't get into detail on parser combinators in this series, but if you're interested in this approach you can look at some of the most popular Rust parser combinator libraries:
 
 * [nom](https://crates.io/crates/nom)
 * [combine](https://crates.io/crates/combine)
