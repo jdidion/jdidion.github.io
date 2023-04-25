@@ -167,9 +167,9 @@ In other words, we want our grammar to express:
 
 The Tree-sitter grammar DSL provides a few functions to facilitate writing these rules:
 
-* `seq` takes two or more rules (or tokens) and matches them in order
+* `seq` takes two or more rules (or literals) and matches them in order
 * `choice` selects from among multiple variants
-* `repeat1` takes one rule or token and matches it one or more times consecutively
+* `repeat1` takes one rule or literal and matches it one or more times consecutively
 
 With these functions, we can expand our grammar to meet *almost* all our goals.
 
@@ -202,7 +202,7 @@ function todo(rule) {
 }
 ```
 
-Note that we can take advantage of the fact that a grammar file is just a node module and add our own JavaScript functions. In this case, we've defined a `todo` function that we can use as a placeholder for the rules we need to implement. It prints a warning and returns the rule name as a token, which will allow the grammar to build successfully even though it is incomplete.
+Note that we can take advantage of the fact that a grammar file is just a node module and add our own JavaScript functions. In this case, we've defined a `todo` function that we can use as a placeholder for the rules we need to implement. It prints a warning and returns the rule name as a literal, which will allow the grammar to build successfully even though it is incomplete.
 
 The main problem with our current grammar is that it would parse the following as a valid document, when in fact it is not, since it doesn't contain one of the three required top-level elements.
 
@@ -211,7 +211,7 @@ version 1.1
 import
 ```
 
-Expressing something like "allow rules A, B, C, and D to match in any order, but require at least one of A|B|C" is actually somewhat challenging. It can be done by employing another built-in fuction, `repeat`, which takes one rule or token and matches it *zero* or more times consecutively. However, it makes for a (perhaps overly) complex rule.
+Expressing something like "allow rules A, B, C, and D to match in any order, but require at least one of A|B|C" is actually somewhat challenging. It can be done by employing another built-in fuction, `repeat`, which takes one rule or literal and matches it *zero* or more times consecutively. However, it makes for a (perhaps overly) complex rule.
 
 ```javascript{title="A more correct and complex grammar"}
 module.exports = grammar({
@@ -419,6 +419,63 @@ test tests::test_can_load_grammar ... ok
 test tests::test_parse ... ok
 
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+```
+
+## Using the parse tree
+
+In the [previous post](/posts/parsing-with-rust-part2/), we successfully parsed a WDL file using our Tree-sitter parser from Rust, but we didn't do anything with the `tree_sitter::Tree` instance that our parser returned. Let's expand our test case to actually navigate the parse tree.
+
+Tree-sitter provides two different APIs for working with the parse tree:
+
+* `tree_sitter::TreeCursor`: Low-level API. A cursor maintains a pointer to a node in the tree, and has a minimal set of methods for moving the pointer. The `node` method returns an instance of `tree_sitter::Node` for the node it's currently pointing to.
+* `tree_sitter::Node`: High-level API. A `Node` contains metadata (rule name, span, and string value) about a node in the tree and provides functions for accessing related nodes (parent, siblings, and children). Internally, a `Node` maintains a reference to a `TreeCursor`, and many of `Node`'s methods require creating a copy of the cursor using the `walk` method.
+
+The high-level API is more ergonomic, so we'll stick to that for now. `Node` provides idiomatic methods to navigate the parse tree using iterators. The drawback of this approach is that navigating multiple levels of the tree requires creating multiple copies of the `TreeCursor`, and each of these copy operations is relatively slow. In a later post we'll write a custom iterator that wraps a `TreeCursor` to provide better ergonomics while maintaining good performance.
+
+A node that corresponds to a production rule is called a "named" node. All non-terminal nodes are named; a terminal node may be named (e.g. the `workflow` node) or not (e.g., the nodes corresponding to the `version` and `1.1` tokens). Each node has a `kind`, which is either its rule name (for a named node) or its literal value (for a terminal token). Obtaining the text value of the node requires passing in a reference to the input text (as a byte array).
+
+Let's expand our test case to use the high-level API to validate the contents of the tree returned by the parser:
+
+```rust
+#[test]
+fn test_parse() {
+    let wdl_file = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("resources")
+        .join("test")
+        .join("simple.wdl");
+    let wdl_source = std::fs::read_to_string(wdl_file).unwrap();
+    let tree = super::parse_document(&wdl_source).unwrap();
+    let root = tree.root_node();  // get the root (`document`) node in the tree
+    assert_eq!(root.kind(), "document");
+    assert_eq!(root.child_count(), 2);
+    let cursor = &mut root.walk();  // make a copy of the cursor
+    let mut children = root.children(cursor);  // create iterator over children
+    let version = children.next().expect("Expected version node");
+    assert_eq!(version.kind(), "version");
+    assert_eq!(version.child_count(), 2);
+    assert_eq!(
+        version.utf8_text(&wdl_source.as_bytes()).unwrap(),
+        "version 1.1"
+    );
+    // we can't mutably borrow cursor twice, so we have to make a second copy of 
+    // the tree cursor
+    let cursor2 = &mut version.walk();
+    let mut version_tokens = version.children(cursor2);
+    let keyword = version_tokens.next().expect("Expected version keyword");
+    assert!(!keyword.is_named());  // literals do not have a rule name
+    assert_eq!(keyword.kind(), "version");  // a literal's kind is equal to its text
+    assert_eq!(
+        keyword.utf8_text(&wdl_source.as_bytes()).unwrap(),
+        "version"
+    );
+    let number = version_tokens.next().expect("Expected version number");
+    assert_eq!(number.kind(), "1.1");
+    assert_eq!(number.utf8_text(&wdl_source.as_bytes()).unwrap(), "1.1");
+    let workflow = children.next().expect("Expected workflow node");
+    assert_eq!(workflow.kind(), "workflow");
+    assert!(workflow.is_named());  // workflow is a named terminal node
+    assert_eq!(workflow.child_count(), 0);
+}
 ```
 
 ## Conclusion
