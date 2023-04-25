@@ -12,11 +12,9 @@ hideComments = false
 color = ""
 +++
 
-The third post in a series on writing programming-language parsers in Rust. In [Part 1](/posts/parsing-with-rust-part1/), we covered general parsing concepts and looked at some of the Rust crates available for generating a parser. In [Part 2](/posts/parsing-with-rust-part2/), we wrote a very simple [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar, generated a parser, and used it from Rust. In this post, we'll expand our [WDL](https://openwdl.org) grammar and cover more advanced aspects of Tree-sitter in the process.
+The third post in a series on writing programming-language parsers in Rust. In [Part 1](/posts/parsing-with-rust-part1/), we covered general parsing concepts and looked at some of the Rust crates available for generating a parser. In [Part 2](/posts/parsing-with-rust-part2/), we started writing a [Tree-sitter](https://tree-sitter.github.io/tree-sitter/) grammar for [WDL](https://openwdl.org) and used it from Rust. In this post, we'll implement some of the more interesting parts of the grammar and learn about the rest of the [Tree-sitter DSL](https://tree-sitter.github.io/tree-sitter/creating-parsers#the-grammar-dsl) in the process. The [complete WDL grammar](https://github.com/jdidion/tree-sitter-wdl/blob/main/grammar.js) is available in the GitHub repository.
 
 <!--more-->
-
-In [Part 2](/posts/parsing-with-rust-part2/), we started writing a grammar for [WDL](https://openwdl.org), but it is far from complete. In this post, we'll implement some of the more interesting parts of the grammar and learn about the rest of the [Tree-sitter DSL](https://tree-sitter.github.io/tree-sitter/creating-parsers#the-grammar-dsl) in the process. The [complete WDL grammar](https://github.com/jdidion/tree-sitter-wdl/blob/main/grammar.js) is available in the GitHub repository.
 
 ## Parsing expressions: precedence and associativity
 

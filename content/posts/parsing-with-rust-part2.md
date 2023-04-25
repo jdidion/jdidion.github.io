@@ -16,6 +16,8 @@ The second post in a series on writing programming-language parsers in Rust. In 
 
 <!--more-->
 
+## Tree-sitter
+
 As we briefly covered in [Part 1](/posts/parsing-with-rust-part1/), [Tree-sitter](https://crates.io/crates/tree-sitter) is a widely used parser generator framework that generates a Generalized LR (GLR) parser with Rust bindings from a grammar specification.
 
 Tree-sitter is implemented using an interesting mix of languages:
