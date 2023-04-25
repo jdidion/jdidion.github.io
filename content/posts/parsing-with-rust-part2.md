@@ -208,7 +208,7 @@ Note that we can take advantage of the fact that a grammar file is just a node m
 
 The main problem with our current grammar is that it would parse the following as a valid document, when in fact it is not, since it doesn't contain one of the three required top-level elements.
 
-```wdl
+```txt
 version 1.1
 import
 ```
@@ -408,7 +408,7 @@ mod tests {
 
 Here we've created a `tests` module with two test functions: `test_can_load_grammar`, which just tries to instantiate a `tree_sitter::Parser` with the WDL `tree_sitter::Language` instance, and `test_parse`, which actually tries to parse a WDL file. The `test_parse` test is looking for a file at `resources/test/simple.wdl`; let's create one that matches our current grammar:
 
-```wdl{title="resources/test/simple.wdl"}
+```txt{title="resources/test/simple.wdl"}
 version 1.1
 workflow
 ```
