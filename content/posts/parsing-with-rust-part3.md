@@ -163,7 +163,7 @@ function block(rule) {
 
 These additions to our grammar enable us to write a more interesting test case:
 
-```text{title="resources/test/interesting.wdl"}
+```text{title="resources/test/interesting.wdl", kind="WDL"}
 version 1.1
 
 workflow test {
@@ -269,7 +269,7 @@ WDL has two types of strings:
 
 In the example below, the `"hello.wdl"` string used in the `import` statement is a literal. String literals are also used in the `meta` section, which contains arbitrary metadata about a workflow or task and does not allow expressions. The expression assigned to `greeting` is an interpolated string.
 
-```text{title="WDL strings example"}
+```text{title="WDL strings example", kind="WDL"}
 import "hello.wdl"
 
 workflow {
@@ -344,7 +344,7 @@ Remember that starting a regular expression character set with `^` indicates neg
 
 Escape sequences include not only special single characters, but also unicode, hexadecimal, and octal sequences.
 
-```text{title="String parsing example"}
+```text{title="String parsing example", kind="Diagram"}
 Parsing the string "Hello \"Jim\"!":
 -----------------------------------
 " <== start double-quoted string, repeat matching of two string body rules
@@ -369,7 +369,7 @@ m --> look ahead, next character doesn't match, end content
 
 Interpolated strings are a bit more challenging to represent due to the possibility of nested expression placeholders. In the following example, `nested` is a valid WDL string expression:
 
-```text{title="WDL interpolated strings"}
+```text{title="WDL interpolated strings", kind="WDL"}
 String name = "John"
 Boolean use_name = true
 String nested = "Hello ~{if use_name then "~{name}" else "Buddy"}"
@@ -461,7 +461,7 @@ command_brace_content: $ => choice(
 
 Most importantly, `}` must be escaped when it is not part of a placeholder, otherwise the end token could match prematurely. For example, consider the following *invalid* WDL task, which has an unescaped `}` in the command section.
 
-```text{title="WDL command missing an escape"}
+```text{title="WDL command missing an escape", kind="WDL"}
 task {
   command {
     echo "}" # <-- no rules match, so the command section would end at this }
@@ -471,7 +471,7 @@ task {
 
 Similarly, in the HEREDOC form of `command`, when there are three consecutive `>`, at least one of them must be escaped (e.g. `\>>>`), but one or two consecutive `>` do not need to be escaped. We might try to change the content regex to `/>{0,2}[^~>\\]+/` but this would make it impossible to match a perfectly valid sequence of characters:
 
-```text{title="An unparseable HEREDOC command"}
+```text{title="An unparseable HEREDOC command", kind="WDL"}
 task {
   command <<<
   echo ">>\n"
@@ -831,7 +831,7 @@ S-expressions should be familiar from [Part 2](https://john.didion.net/posts/par
 
 Let's take our [WDL](#improving-parse-tree-ergonomics) from earlier in this post and turn it into a test case. Tree-sitter expects test cases to be in the `test/corpus/` folder.
 
-```text{title="test/corpus/workflow.txt"}
+```text{title="test/corpus/workflow.txt", kind="Tree-sitter test"}
 ==================
 Workflow Test
 ==================
@@ -881,7 +881,7 @@ workflow test {
 
 Now we can run the `test` script that we defined in our `project.json`:
 
-```text{title="Running test cases"}
+```text{title="Running test cases", kind="Shell session"}
 $ npm run test
 > tree-sitter-wdl@0.1.0 test
 > tree-sitter test

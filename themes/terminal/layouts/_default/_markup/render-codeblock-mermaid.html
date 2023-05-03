@@ -11,7 +11,15 @@
         {{- with .Attributes.title }}
         <td class="code-title">{{ . }}</td>
         {{- end}}
-        <td class="code-lang">{{ .Type | string }}</td>
+    </tr>
+    <tr class="code-lang">
+        {{- if .Attributes.kind }}
+        {{- with .Attributes.kind }}
+        <td class="code-lang">{{ . }}</td>
+        {{- end}}
+        {{- else -}}
+        <td class="code-lang">{{ .Type | string }} diagram</td>
+        {{ end }}
     </tr>
 </table>
 <div class="mermaid">

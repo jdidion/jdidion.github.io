@@ -37,7 +37,7 @@ The first step in developing our Tree-sitter grammar is to install the dependenc
 
 The project we'll be creating is called `tree-sitter-wdl`, which follows the [preferred convention](https://tree-sitter.github.io/tree-sitter/creating-parsers#project-setup) of naming the parser repository `tree-sitter-<language>`. After completing the setup process, we have a project folder with a [`package.json`](https://github.com/jdidion/tree-sitter-wdl/blob/main/package.json) file that describes our project and provides the configuration required by `npm` to build our parser. The key parts of this file are described below, excluding any [metadata](https://docs.npmjs.com/cli/v9/configuring-npm/package-json) that is just needed for publishing the package in the npm repository.
 
-```json{title="package.json"}
+```json{title="package.json", kind="JSON"}
 {
   "name": "tree-sitter-wdl",
   "version": "0.1.0",
@@ -76,7 +76,7 @@ The project we'll be creating is called `tree-sitter-wdl`, which follows the [pr
 
 Now that we have the project set up, we can get to work on the grammar. The grammar is defined in a file called `grammar.js` in the root directory of the project. We are going to start with a bare-bones grammar just to make sure the CLI is working as expected, and to get familiar with the different files that it generates.
 
-```javascript{title="A bare-bones grammar"}
+```JavaScript{title="A bare-bones grammar"}
 module.exports = grammar({
   name: "wdl",
   rules: {
@@ -96,7 +96,7 @@ Let's walk through our initial grammar file line-by-line:
 
 After creating the `grammar.js` file, the structure of the project looks like this:
 
-```txt{title="Initial project structure"}
+```txt{title="Initial project structure", kind="Directory listing"}
 tree-sitter-wdl
 ├── grammar.js
 ├── node_modules
@@ -105,7 +105,7 @@ tree-sitter-wdl
 
 You will only see `node_modules` if you installed the Tree-sitter CLI during project setup (otherwise it will be installed automatically during the next step). Now, if we've done everything correctly, the following command should generate our parser:
 
-```txt{title="Generating the parser"}
+```txt{title="Generating the parser", kind="Shell session"}
 $ npm run build
 gyp info it worked if it ends with ok
 gyp info using node-gyp@9.3.0
@@ -117,7 +117,7 @@ gyp info ok
 
 Now our project directory has a lot more files:
 
-```txt{tilte="Project structure after parser generation"}
+```txt{tilte="Project structure after parser generation", kind="Directory listing"}
 tree-sitter-wdl
 ├── binding.gyp         # build file for the gyp build system built into node
 ├── bindings
@@ -140,7 +140,7 @@ tree-sitter-wdl
 
 We'll come back to some of these files later. The important thing for now is that Tree-sitter did what we expected it to do. We should now be able to use the CLI to parse a WDL file that matches our grammar:
 
-```txt{title="Parsing a WDL file that matches the initial grammar"}
+```txt{title="Parsing a WDL file that matches the initial grammar", kind="Shell session"}
 $ printf "version 1.1\n" | tree-sitter parse /dev/stdin
 (document [0, 0] - [1, 0]
   (version [0, 0] - [0, 11]))
@@ -175,7 +175,7 @@ The Tree-sitter grammar DSL provides a few functions to facilitate writing these
 
 With these functions, we can expand our grammar to meet *almost* all our goals.
 
-```javascript{title="Our grammar with a few more rules"}
+```JavaScript{title="Our grammar with a few more rules"}
 module.exports = grammar({
   name: "wdl",
   rules: {
@@ -208,14 +208,14 @@ Note that we can take advantage of the fact that a grammar file is just a node m
 
 The main problem with our current grammar is that it would parse the following as a valid document, when in fact it is not, since it doesn't contain one of the three required top-level elements.
 
-```txt
+```txt{title="invalid.wdl", kind="WDL"}
 version 1.1
 import
 ```
 
 Expressing something like "allow rules A, B, C, and D to match in any order, but require at least one of A|B|C" is actually somewhat challenging. It can be done by employing another built-in fuction, `repeat`, which takes one rule or literal and matches it *zero* or more times consecutively. However, it makes for a (perhaps overly) complex rule.
 
-```javascript{title="A more correct and complex grammar"}
+```JavaScript{title="A more correct and complex grammar"}
 module.exports = grammar({
   name: "wdl",
   rules: {
@@ -256,7 +256,7 @@ Our grammar is still far from complete, but it's at least interesting enough now
 
 Recall that when we generated our parser, Tree-sitter also generated a bunch of other files. The ones we're interested in right now are:
 
-```txt
+```txt{kind="Directory listing"}
 tree-sitter-wdl
 ├── bindings
 │  |_ rust
@@ -336,7 +336,7 @@ pub fn parse_document(text: &str) -> Result<tree_sitter::Tree, ParserError> {
 
 The `Cargo.toml` file is the Rust equivalent of `package.json` - it contains the configuration necessary to compile the package's code, including any dependencies on other crates, as well as metadata used for publishing the package to the [`crates.io`](https://crates.io/) repository when we're ready to make our parser available to others. The key parts of this file are shown below.
 
-```toml{title="Cargo.toml"}
+```toml{title="Cargo.toml", kind="TOML"}
 [package]
 name = "tree-sitter-wdl"
 version = "0.1.0"
@@ -360,7 +360,7 @@ cc = "1.0"  # the dependency on cc is only needed at build time
 
 To build our package into a crate, we use the `cargo build` command. The first time we run `cargo build` in our project, Cargo downloads and compiles all the dependencies (and dependencies-of-dependencies, etc.) before compiling and packaging our package code.
 
-```txt{title="Building the Rust bindings"}
+```txt{title="Building the Rust bindings", kind="Shell session"}
 $ cargo build
     Updating crates.io index
   Downloaded tree-sitter v0.20.10
@@ -408,14 +408,15 @@ mod tests {
 
 Here we've created a `tests` module with two test functions: `test_can_load_grammar`, which just tries to instantiate a `tree_sitter::Parser` with the WDL `tree_sitter::Language` instance, and `test_parse`, which actually tries to parse a WDL file. The `test_parse` test is looking for a file at `resources/test/simple.wdl`; let's create one that matches our current grammar:
 
-```txt{title="resources/test/simple.wdl"}
+```txt{title="resources/test/simple.wdl", kind="WDL"}
 version 1.1
 workflow
 ```
 
-Now we can run `cargo test`, and we should see:
+Now we can run our test:
 
-```txt{title="Test output"}
+```txt{title="Test output", kind="Shell session"}
+$ cargo tst
 running 2 tests
 test tests::test_can_load_grammar ... ok
 test tests::test_parse ... ok
@@ -438,7 +439,7 @@ A node that corresponds to a production rule is called a "named" node. All non-t
 
 Let's expand our test case to use the high-level API to validate the contents of the tree returned by the parser:
 
-```rust
+```rust{title="Expanded test case"}
 #[test]
 fn test_parse() {
     let wdl_file = PathBuf::from(env!("CARGO_MANIFEST_DIR"))

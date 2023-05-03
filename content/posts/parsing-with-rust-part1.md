@@ -59,7 +59,7 @@ A [formal language](https://en.wikipedia.org/wiki/Formal_language) is one that i
 
 For example, below is a grammar for a very simple language that can generate strings such as "The man jumps." Each rule (technically called a *production rule*) has a unique identifier on the left-hand-side and an ordered list of productions on the right-hand-side, where each production is either a token or another rule. The grammar also makes use of a choice operator (`|`) that defines a set of alternative productions from which exactly one must be selected.
 
-```text{title="A simple grammar"}
+```text{title="A simple grammar", kind="Grammar"}
 Sentence -> "The" {Noun} {Verb} "."
 Noun -> ( "man" | "woman" | "child" )
 Verb -> ( "runs" | "jumps" | "falls" )
@@ -103,7 +103,7 @@ The parsing of formal languages has long been an active area of research in comp
   * A parser can "look ahead" one or more tokens to reduce the number of alternatives before trying them. In the absence of backtracking, the parser must always be able to select a single alternative given a specific amount of lookahead or it fails.
 * Support for left-recursion. A left-recursive rule is one that decomposes into a right-hand-side whose leftmost production is self-referential. Some types of parsers are capable of handling left-recursion while others are not. In the example grammar below, the `Expr` rule is left-recursive.
 
-```text{title="A left-recursive grammar"}
+```text{title="A left-recursive grammar", kind="Grammar"}
 Expr -> ( {Expr} "+" {Expr} ) | Int
 Int -> [0-9]+
 ```

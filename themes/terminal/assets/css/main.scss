@@ -157,7 +157,6 @@ div {
   &.highlight,
   &.mermaid {
     background: transparent !important;
-    border-top: 1px solid rgba(255, 255, 255, .1);
     border-bottom: 1px solid rgba(255, 255, 255, .1);
     margin-bottom: 20px;
 
@@ -179,7 +178,7 @@ div {
 pre {
   background: transparent !important;
   padding: 20px 10px;
-  margin: 20px 0;
+  margin-top: 0px;
   font-size: .95rem !important;
   overflow: auto;
   border-top: 1px solid rgba(255, 255, 255, .1);
@@ -278,6 +277,12 @@ th {
   }
 }
 
+tr {
+  &.code-lang {
+    border-top: 1px solid rgba(255, 255, 255, .1);
+  }
+}
+
 td {
   border: 1px dashed $accent;
   padding: 10px;
@@ -293,14 +298,18 @@ td {
 
   &.code-lang {
     color: black;
-    font-size: 0.9em;
+    font-size: 1rem;
     font-style: italic;
-    text-transform: capitalize;
+    line-height: 1.1;
     background-color: $accent;
     float: right;
-    padding: 2px 10px 0px 10px;
-    border-radius: 10px 10px 0px 0px;
-    vertical-align: bottom;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0px 0px 0px 8px;
+    width: auto;
+  }
+
+  &.code-lang:first-letter {
+    text-transform: capitalize;
   }
 }
 
