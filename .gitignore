@@ -1,2 +1,4 @@
 CNAME
 .hugo_build.lock
+# oh-my-claudecode scratch
+.omc/
